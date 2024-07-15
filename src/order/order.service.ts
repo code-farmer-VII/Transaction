@@ -27,10 +27,10 @@ export class OrderService {
         lock: { mode: 'pessimistic_write' },
       });
       if (!user) {
-        throw new Error('User not found');
+        throw new Error('user not found');
       }
       if (user.balance < price) {
-        throw new Error('Insufficient balance');
+        throw new Error('insufficient');
       }
 
       const order = new Order();
@@ -43,11 +43,17 @@ export class OrderService {
       await queryRunner.manager.save(user);
 
       await queryRunner.commitTransaction();
+      
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
     } finally {
       await queryRunner.release();
+  
     }
+  }
+
+  async findAll(): Promise<Order[]> {
+    return await this.orderRepository.find();
   }
 }
