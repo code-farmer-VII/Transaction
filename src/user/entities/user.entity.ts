@@ -10,6 +10,7 @@ export class User {
 
   @Column({ type: 'float', default: 0 })
   balance: number;
+  
 
   @OneToMany(() => Order, order => order.user)
   orders: Order[];

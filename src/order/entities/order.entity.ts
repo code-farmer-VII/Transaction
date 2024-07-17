@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 @Entity()
 export class Order {
@@ -11,6 +11,10 @@ export class Order {
   @Column()
   price: number;
 
+  @Column({type: "number"})
+  userId: number;
+
   @ManyToOne(() => User, user => user.orders)
+  @JoinColumn({ name: 'userId' })
   user: User;
 }
