@@ -29,6 +29,7 @@ export class OrderService {
       // });
 
       const userRepo = queryRunner.manager.getRepository(User)
+      
 
       const userOne = await userRepo.findOne({
         where: { id: userId},
@@ -49,6 +50,17 @@ export class OrderService {
       // order.userId = userId;
       // await queryRunner.manager.save(order);
       const orderRepoo = queryRunner.manager.getRepository(Order)
+
+      // create allternative 
+      const createOrder = orderRepoo.create({
+        item, 
+        price,
+        userId: userOne.id
+      })
+           
+      orderRepoo.save(createOrder);
+
+      //save allternative 
       orderRepoo.save({
         item, 
         price,
@@ -57,10 +69,12 @@ export class OrderService {
 
       userOne.balance -= price;
       // await queryRunner.manager.save(user);
-
+      
       await userRepo.save(userOne)
 
-      // await userRepo.update(userOne.balance,userOne)
+      await userRepo.update({id: createOrderDto.userId},userOne)
+
+      await userRepo.upsert(userOne,['id'])
 
       await queryRunner.commitTransaction();
       

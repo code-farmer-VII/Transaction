@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn,Unique } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 @Entity()
+// @Unique(['item'])
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
